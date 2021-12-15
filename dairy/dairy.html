@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+  //1全局查找非数字的内容
+  //2null和undefined加""会变成字符串形式的"null","undefined"
+  let reg=new RegExp(/[^/d]/g)
+  let testText="你好"
+  testText=(testText+"").replace(reg,"")
+
+  </script>
+</body>
+</html>

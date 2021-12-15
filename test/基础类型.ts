@@ -7,7 +7,7 @@ enum Color{purple=10,green} //枚举
 let y:Color=Color.purple
 console.log(y);
 let z:any=10
-function voidtest():void{ //void只接受null和undefined
+function voidtest():void{ //void只接受null和undefined，此处表示该函数没有返回值
   console.log(200000);
 }
 let p:number|string|boolean=20 //联合类型符号|
