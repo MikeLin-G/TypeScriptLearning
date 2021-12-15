@@ -1,7 +1,3 @@
-for (var i = 0; i < 5; i++) { 
-  (function (i) { 
-      setTimeout(function () { 
-　　　　　　console.log(i); 
-  　　}, 1000 * i); 
-  })(i); //这里使用闭包
+function keepWholeObject(wholeObject) {
+    var a = wholeObject.a, _a = wholeObject.b, b = _a === void 0 ? 1001 : _a;
 }
