@@ -106,14 +106,14 @@ class Dog extends Animal {
 
 // 错误：使用数值型的字符串索引，有时会得到完全不同的Animal!
 interface NotOkay {
-  //[x: number]: Animal;  //但是数字索引的返回值必须是字符串索引返回值类型的子类型。
+  // [x: number]: Animal;  //但是数字索引的返回值必须是字符串索引返回值类型的子类型。
   [x: string]: Dog;
 }
 
 interface numberDictionary{
   [x:string]:number,
   length:number,
-  //height:string,  //err 字符串索引签名能够很好的描述dictionary模式，并且它们也会确保所有属性与其返回值类型相匹配。
+  //height:string,  //err(返回值不匹配number) 字符串索引签名能够很好的描述dictionary模式，并且它们也会确保所有属性与其返回值类型相匹配。
 }
 
 
@@ -140,3 +140,80 @@ class Time implements doit{
   }
   constructor(h: number, m: number) { }
 }
+
+//接口描述了类的公共部分，而不是公共和私有两部分。 它不会帮你检查类是否具有某些私有成员。
+
+interface ClockConstructor {
+  new (hour: number, minute: number);
+}
+
+// class Clock implements ClockConstructor {
+//   currentTime: Date;
+//   constructor(hour: number, minute: number) { }
+// }
+//当你操作类和接口的时候，你要知道类是具有两个类型的：静态部分的类型和实例的类型。 你会注意到，当你用构造器签名去定义一个接口并试图定义一个类去实现这个接口时会得到一个错误：
+//这里因为当一个类实现了一个接口时，只对其实例部分进行类型检查。 constructor存在于类的静态部分，所以不在检查的范围内。
+//因此，我们应该直接操作类的静态部分(constructor)。 
+
+
+interface ClockConstructor {
+  new (hour: number, minute: number): ClockInterface;
+}
+interface ClockInterface {
+  tick();
+}
+
+function createClock(ctor: ClockConstructor, hour: number, minute: number): ClockInterface {
+  return new ctor(hour, minute);
+}
+
+class DigitalClock implements ClockInterface {
+  constructor(h: number, m: number) { }
+  tick() {
+      console.log("beep beep");
+  }
+}
+class AnalogClock implements ClockInterface {
+  constructor(h: number, m: number) { } //静态部分，入参符合接口
+  tick() {
+      console.log("tick tock");
+  }
+}
+
+let digital = createClock(DigitalClock, 12, 17);
+let analog = createClock(AnalogClock, 7, 32);
+
+
+//继承接口
+
+//接口可以相互继承
+interface Shape {
+  color: string;
+}
+
+interface Square extends Shape {
+  sideLength: number;
+}
+
+let square = <Square>{}; //变量使用接口
+square.color = "blue";
+square.sideLength = 10;
+
+
+interface Counter {
+  (start: number): string;
+  interval: number;
+  reset(): void;
+}
+
+function getCounter(): Counter {
+  let counter = <Counter>function (start: number) { };
+  counter.interval = 123;
+  counter.reset = function () { };
+  return counter;
+}
+
+let c = getCounter();
+c(10);
+c.reset();
+c.interval = 5.0;
