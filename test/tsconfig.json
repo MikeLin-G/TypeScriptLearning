@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "outDir": "./js", //输出目录
+    "strict": false, //严格模式关闭
+    "target": "es2017",
+  },
+}
